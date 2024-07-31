@@ -1,0 +1,4 @@
+{
+  "terminal.integrated.scrollback": 2000,
+  "debug.terminal.clearBeforeReusing": true
+}
