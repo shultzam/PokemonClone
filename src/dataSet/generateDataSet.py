@@ -8,7 +8,8 @@ import re
 
 gameVersions={"red-blue":1,"yellow":2,"gold-silver":3,"crystal":4,"ruby-sapphire":5,"emerald":6,
               "firered-leafgreen":7,"diamond-pearl":8,"platinum":9,"heartgold-soulsilver":10,"black-white":11,"colosseum":12,
-              "xd":13,"black-2-white-2":14,"x-y":15,"omega-ruby-alpha-sapphire":16,"sun-moon":17,"ultra-sun-ultra-moon":18,"lets-go-pikachu-lets-go-eevee": 19,"sword-shield":20}
+              "xd":13,"black-2-white-2":14,"x-y":15,"omega-ruby-alpha-sapphire":16,"sun-moon":17,"ultra-sun-ultra-moon":18,"lets-go-pikachu-lets-go-eevee": 19,"sword-shield":20,
+              "scarlet-violet":21,"the-teal-mask":22,"the-indigo-disk":23,"brilliant-diamond-and-shining-pearl":24}
 
 
 def MachineUrlToID(url):
@@ -213,7 +214,11 @@ def gEvolutionChain():
         URLs.append(i['url'])
         response=req.get(url)
         data=response.json()
-        results[data['id']-1]=data
+        try:
+            results[data['id']-1]=data
+        except:
+            print("ERROR failed to parse request for URL: {}".format(url))
+            pass
     print(results)
     fileName='evolution-chain.json'
     with open(fileName,'w') as f:

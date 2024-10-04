@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 # Scrapes Image URLs from Bulbapedia
 
 # Retrieve All Pokemon Names
-url = "https://pokeapi.co/api/v2/pokemon/?limit=1025?"
+url = "https://pokeapi.co/api/v2/pokemon/?limit=1050?"
 r = requests.get(url)
 data = r.json()
 # Storing Names
@@ -80,6 +80,7 @@ for i in pokemonNames:
 expectional = []
 id = 0
 directUrls = []
+failed_urls = []
 for url in pokemonImagePageUrls:
     page = requests.get(url)
     if page.status_code == 200:
@@ -88,9 +89,10 @@ for url in pokemonImagePageUrls:
         directUrls.append(res["href"])
     else:
         expectional.append(pokemonNames[id])
+        failed_urls.append(url)
     id = id + 1
     print(
-        f"Scrapping for direct links: {id}/({len(pokemonImagePageUrls)})",
+        f"Scraping for direct links: {id}/({len(pokemonImagePageUrls)})",
         end="\r",
     )
 
@@ -99,6 +101,9 @@ print(*directUrls, sep="\n")
 if len(expectional) > 0:
     print("Failed to fetch:")
     print(*expectional, sep="\n")
+
+for failed_url in failed_urls:
+    print('FAILED URL: {}'.format(failed_url))
 
 # Storing the data in text files
 with open("URLs/URLs.txt", "w") as f:
